@@ -1,0 +1,6 @@
+﻿w1: 1.0    # VOR weight
+w2: 0.5    # availability*base
+w3: 0.1    # consistency penalty
+w4: 0.1    # upside bonus
+k1: 1.0    # stdev scaler
+k2: 1.0    # p90 scaler

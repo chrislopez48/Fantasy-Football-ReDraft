@@ -1,0 +1,5 @@
+﻿player_id,player_name,team,pos,week,points,active
+123,Sample RB,ABC,RB,1,18.4,1
+123,Sample RB,ABC,RB,2,12.1,1
+456,Boom WR,XYZ,WR,1,28.0,1
+456,Boom WR,XYZ,WR,2,0.0,0

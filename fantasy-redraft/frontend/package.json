@@ -1,0 +1,7 @@
+﻿{
+  "name": "fantasy-redraft-frontend",
+  "private": true,
+  "scripts": {
+    "dev": "npx http-server ./src -p 5173 -c-1"
+  }
+}

@@ -1,0 +1,25 @@
+﻿teams: 10
+roster:
+  QB: 1
+  RB: 2
+  WR: 2
+  TE: 1
+  FLEX: 2
+  K: 1
+  DST: 1
+superflex: false
+
+scoring_presets:
+  PPR:
+    points_per_reception: 1.0
+    passing_yards_per_pt: 25
+    passing_fd: 
+    passing_td: 4
+    interception: -2
+    rushing_yards_per_pt: 10
+    rushing_td: 6
+    receiving_yards_per_pt: 10
+    receiving_td: 6
+    fumble_lost: -2
+    bonuses:
+      - {stat: "receiving_yards", threshold: 100, bonus: 2}  # optional
