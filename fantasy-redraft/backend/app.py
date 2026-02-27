@@ -7,7 +7,7 @@ from backend.lambda_ranker.app import handler as ranker_handler
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI                     #another framework for building APIs
 from backend.lambda_ranker.scoring import rank_players
-from scoring_rules import RULESETS
+from .lambda_ranker.scoring_rules import RULESETS
 
 app = FastAPI()                                 #function we call to do the ranking, "app" is my FF server
 

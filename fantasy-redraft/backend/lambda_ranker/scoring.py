@@ -1,5 +1,5 @@
 from typing import Any
-from scoring_rules import DEFAULT_RULES
+from .scoring_rules import DEFAULT_RULES                                #dot means import from same folder
 
 
 
