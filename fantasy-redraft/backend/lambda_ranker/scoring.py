@@ -121,8 +121,7 @@ def compute_fantasy_points(p: dict, s: dict | None = None) -> tuple[float, dict]
     return total, breakdown
 
 def apply_importance_layer(players: list[dict], context: dict | None = None) -> list[dict]:
-    if not context:                                                                   #no context=do nothing
-        return players
+    context = context or {}
 
     phase = (context.get("phase") or "regular").lower()                                 #lower just changes capital letters to lowercase
     risk = (context.get("risk_tolerance") or "medium").lower()                          #pulls key words that weight model
@@ -243,28 +242,35 @@ def add_explanations(
     return updated
 
 
-def rank_players(players: list[dict], settings: dict | None = None, context: dict | None = None, top_n: int = 50) -> list[dict]:
-    """
-    Returns players enriched with:
-      - base_points
-      - adjusted_value (importance-adjusted)
-      - breakdown
-    Sorted by adjusted_value desc.
-    """
+def rank_players(
+    players: list[dict],
+    settings: dict | None = None,
+    context: dict | None = None,
+    top_n: int = 50
+) -> list[dict]:
+
     enriched: list[dict] = []
 
     for p in players:
         base_pts, breakdown = compute_fantasy_points(p, settings)
-        adj = apply_importance_layer(p, base_pts, context or {})
 
         enriched.append({
             **p,
-            "base_points": round(base_pts, 2),
-            "adjusted_value": round(adj, 2),
+            "fantasy_points": round(base_pts, 2),
             "breakdown": breakdown,
         })
 
-    ranked = sorted(enriched, key=lambda x: x["adjusted_value"], reverse=True)
+    enriched = apply_importance_layer(
+        enriched,
+        context or {}
+    )
+
+    ranked = sorted(
+        enriched,
+        key=lambda x: x["value_score"],
+        reverse=True
+    )
+
     return ranked[:top_n]
 
 

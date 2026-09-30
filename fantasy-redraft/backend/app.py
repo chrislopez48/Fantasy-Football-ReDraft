@@ -24,7 +24,7 @@ class RankRequest(BaseModel):
     top_n: int = Field(default=50, ge=1, le=500)
     settings: Dict[str, Any] = Field(default_factory=dict)
     players: List[Dict[str, Any]] = Field(default_factory=list)
-    context: Dict[str, Any] = Field(default_factory=list)
+    context: Dict[str, Any] = Field(default_factory=dict)
 
 class RankResponse(BaseModel):
     count: int
@@ -34,7 +34,7 @@ class RankResponse(BaseModel):
 
 @app.post("/rank", response_model=RankResponse)
 def rank(req: RankRequest):
-    ranked = rank_players(req.players, req.settings, top_n=req.top_n, context=re)
+    ranked = rank_players(req.players, req.settings, top_n=req.top_n, context=req.context)
     return {"count": len(ranked), "players": ranked}
                                                    #creates postAPI endpoint
 
