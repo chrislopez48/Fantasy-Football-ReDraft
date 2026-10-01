@@ -2,27 +2,65 @@
   {
     "name": "Test QB",
     "position": "QB",
-    "stats": {
-      "pass_yd": 300,
-      "pass_td": 3,
-      "interception": 1,
-      "rush_yd": 0,
-      "rush_td": 0,
-      "receptions": 0
-    },
-    "fantasy_points": 22.0
+    "pass_yd": 300,
+    "pass_td": 3,
+    "interceptions": 1,
+    "rush_yd": 0,
+    "rush_td": 0,
+    "reception": 0,
+    "rec_yd": 0,
+    "rec_td": 0,
+    "fantasy_points": 22.0,
+    "breakdown": {
+      "pass_td": 12.0,
+      "interceptions": -2.0,
+      "pick_six": -0.0,
+      "pass_yd": 12.0,
+      "pass_1d": 0.0,
+      "rush_yd": 0.0,
+      "rush_td": 0.0,
+      "rush_1d": 0.0,
+      "rush_bonus": 0.0,
+      "rec": 0.0,
+      "rec_yd": 0.0,
+      "rec_td": 0.0,
+      "rec_1d": 0.0,
+      "rec_bonus": 0.0,
+      "return_td": 0.0,
+      "two_pt": 0.0,
+      "fumbles_lost": -0.0
+    }
   },
   {
     "name": "Test RB",
     "position": "RB",
-    "stats": {
-      "pass_yd": 0,
-      "pass_td": 0,
-      "interception": 0,
-      "rush_yd": 110,
-      "rush_td": 1,
-      "receptions": 4
-    },
-    "fantasy_points": 21.0
+    "pass_yd": 0,
+    "pass_td": 0,
+    "interceptions": 0,
+    "rush_yd": 110,
+    "rush_td": 1,
+    "reception": 4,
+    "rec_yd": 0,
+    "rec_td": 0,
+    "fantasy_points": 21.0,
+    "breakdown": {
+      "pass_td": 0.0,
+      "interceptions": -0.0,
+      "pick_six": -0.0,
+      "pass_yd": 0.0,
+      "pass_1d": 0.0,
+      "rush_yd": 11.0,
+      "rush_td": 6.0,
+      "rush_1d": 0.0,
+      "rush_bonus": 2.0,
+      "rec": 2.0,
+      "rec_yd": 0.0,
+      "rec_td": 0.0,
+      "rec_1d": 0.0,
+      "rec_bonus": 0.0,
+      "return_td": 0.0,
+      "two_pt": 0.0,
+      "fumbles_lost": -0.0
+    }
   }
 ]

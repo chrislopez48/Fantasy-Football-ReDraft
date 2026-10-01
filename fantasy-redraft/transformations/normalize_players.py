@@ -1,3 +1,5 @@
+#raw player data will come here first
+
 import json
 from pathlib import Path
 
