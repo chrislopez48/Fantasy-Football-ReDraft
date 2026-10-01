@@ -1,0 +1,19 @@
+{
+  "source": "sample",
+  "players": [
+    {
+      "name": "Test QB",
+      "position": "QB",
+      "pass_yd": 300,
+      "pass_td": 3,
+      "interception": 1
+    },
+    {
+      "name": "Test RB",
+      "position": "RB",
+      "rush_yd": 110,
+      "rush_td": 1,
+      "receptions": 4
+    }
+  ]
+}

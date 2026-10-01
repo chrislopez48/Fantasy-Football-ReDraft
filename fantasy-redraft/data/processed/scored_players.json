@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Test QB",
+    "position": "QB",
+    "stats": {
+      "pass_yd": 300,
+      "pass_td": 3,
+      "interception": 1,
+      "rush_yd": 0,
+      "rush_td": 0,
+      "receptions": 0
+    },
+    "fantasy_points": 22.0
+  },
+  {
+    "name": "Test RB",
+    "position": "RB",
+    "stats": {
+      "pass_yd": 0,
+      "pass_td": 0,
+      "interception": 0,
+      "rush_yd": 110,
+      "rush_td": 1,
+      "receptions": 4
+    },
+    "fantasy_points": 21.0
+  }
+]
