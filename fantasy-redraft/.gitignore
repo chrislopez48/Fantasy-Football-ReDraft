@@ -6,5 +6,5 @@ __pycache__/
 
 .terraform/
 *.tfstate
-*.tfstate>*
+*.tfstate*
 crash.log
