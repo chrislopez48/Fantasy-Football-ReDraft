@@ -5,3 +5,7 @@ docker volume- docker manages the storage location for you
 terraform init takes up a lot of space. put on gitignore
 terraform-provider-aws is a compiled binary executable. very big in file size
 AT some point, we can run terraform inside container. but for now, we'll install terraform on pc and mac
+boto3 is a aws SDK for python, giving python ways to communicate with buckets, ec2, dbs etc
+docker run `
+  -v ${HOME}\.aws:/root/.aws:ro `
+  fantasy-redraft

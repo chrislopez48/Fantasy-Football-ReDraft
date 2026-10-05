@@ -1,7 +1,7 @@
 from ingestion.sample_ingest import save_raw_data
 from transformations.normalize_players import main as normalize_players
 from transformations.score_players import main as score_players
-
+from pipeline.upload_to_s3 import upload_file
 
 def run_pipeline():
     print("Starting fantasy football data pipeline...")
@@ -39,6 +39,9 @@ def run_pipeline():
         print("Step 3: Scoring players...")
         score_players()
         print("Step 3 complete.")
+
+        print("Step 4: Uploading scored data to s3")
+        upload_file()
 
         print("Pipeline completed successfully.")
 
