@@ -9,3 +9,15 @@ boto3 is a aws SDK for python, giving python ways to communicate with buckets, e
 docker run `
   -v ${HOME}\.aws:/root/.aws:ro `
   fantasy-redraft
+
+"output" in terraform files is the print version basically
+terraform init- prepares terra folder and downloads aws resoirces
+terraform plan - compares tf files, saved state, and what aws has. an updater that determines add change or destroy
+terraform apply- makes changes to aws
+
+docker build -t fantasy-redraft .
+docker tag fantasy-redraft:latest YOUR_ECR_URL:latest
+docker push YOUR_ECR_URL:latest
+use the 3 lines above every time we build a new image^ jenkins will automate this later
+
+ECR stores docker images. like github but for coker images

@@ -1,1 +1,1 @@
-s3_bucket_name = "fantasy-pipeline-momandpopshop"
+bucket_name = "fantasy-pipeline-momandpopshop"
