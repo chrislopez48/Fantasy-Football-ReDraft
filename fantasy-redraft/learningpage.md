@@ -20,4 +20,6 @@ docker tag fantasy-redraft:latest YOUR_ECR_URL:latest
 docker push YOUR_ECR_URL:latest
 use the 3 lines above every time we build a new image^ jenkins will automate this later
 
-ECR stores docker images. like github but for coker images
+ECR stores docker images. like github but for docker images
+fargate gives us the CPU and ram to actually run our images
+without fargate, we have to maintain ec2 servers, install docker, patch os, etc.

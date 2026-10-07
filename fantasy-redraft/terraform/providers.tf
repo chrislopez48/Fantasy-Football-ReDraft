@@ -3,7 +3,7 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
-    }                           #aws,azzure,docker, github etc have providers
+    } #aws,azzure,docker, github etc have providers
 
   }
 }
