@@ -23,3 +23,6 @@ use the 3 lines above every time we build a new image^ jenkins will automate thi
 ECR stores docker images. like github but for docker images
 fargate gives us the CPU and ram to actually run our images
 without fargate, we have to maintain ec2 servers, install docker, patch os, etc.
+
+PKCE- proof key for code exchange - helps that the program starting the yahoo sign in is the same as the one exchanging auth for tokens. we create a random verifier, send a yahoo challange, send the original verifier with an auth code, then yahoo hashes that verifier and makes sure it matches the challenge
+SHA-256 - hashing algorithm we use to create the challenge

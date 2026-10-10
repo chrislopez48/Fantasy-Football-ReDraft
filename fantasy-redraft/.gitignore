@@ -8,3 +8,4 @@ __pycache__/
 *.tfstate
 *.tfstate*
 crash.log
+yahoo_tokens.json
