@@ -8,10 +8,10 @@ from urllib.error import HTTPError                  #help us decode terminal lin
 from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import Request, urlopen
 
-CLIENT_ID = "dj0yJmk9WTczNlJiYzJLUzVKJmQ9WVdrOWVtbFBhbTVpZWpJbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTE0"
+CLIENT_ID = os.getenv("YAHOO_CLIENT_ID")
 REDIRECT_URI = "https://github.com/chrislopez48/Fantasy-Football-ReDraft"
 
-TOKEN_FILE = Path(__file__).resolve().parent / "yahoo_tokens.json". #resolve makes path absolute
+TOKEN_FILE = Path(__file__).resolve().parent / "yahoo_tokens.json" #resolve makes path absolute
 
 
 def main():

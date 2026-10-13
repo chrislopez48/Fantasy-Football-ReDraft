@@ -26,3 +26,7 @@ without fargate, we have to maintain ec2 servers, install docker, patch os, etc.
 
 PKCE- proof key for code exchange - helps that the program starting the yahoo sign in is the same as the one exchanging auth for tokens. we create a random verifier, send a yahoo challange, send the original verifier with an auth code, then yahoo hashes that verifier and makes sure it matches the challenge
 SHA-256 - hashing algorithm we use to create the challenge
+docker pull jenkins/jenkins:lts-jdk21 command to download jenkins
+image- our blueprint for everything needed to run jenkinsfile
+container- instance created ffrom jenkinsfile image
+volume-persistent storage existing independent of container that can outlive and be reused by containers. we created a volume with all jenkinsfile and attached it so we dont lose progress if we delete containers
