@@ -1,7 +1,7 @@
 
 pipeline {
     agent any
-                                            #checkout is our first phase, steps is commands jenkins will execute
+                                            
     stages {
         stage('Checkout') {
             steps {

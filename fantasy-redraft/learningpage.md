@@ -30,3 +30,4 @@ docker pull jenkins/jenkins:lts-jdk21 command to download jenkins
 image- our blueprint for everything needed to run jenkinsfile
 container- instance created ffrom jenkinsfile image
 volume-persistent storage existing independent of container that can outlive and be reused by containers. we created a volume with all jenkinsfile and attached it so we dont lose progress if we delete containers
+#checkout is our first phase, steps is commands jenkins will execute
