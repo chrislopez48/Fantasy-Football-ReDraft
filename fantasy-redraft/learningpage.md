@@ -31,3 +31,7 @@ image- our blueprint for everything needed to run jenkinsfile
 container- instance created ffrom jenkinsfile image
 volume-persistent storage existing independent of container that can outlive and be reused by containers. we created a volume with all jenkinsfile and attached it so we dont lose progress if we delete containers
 #checkout is our first phase, steps is commands jenkins will execute
+we make a docker network so containers can communicate with each other.
+jenkins controller- manages jobs, schedules builds, etc
+jenkins agent- executes actual build commands
+docker network- allows agent cond controller containers to communicate.
