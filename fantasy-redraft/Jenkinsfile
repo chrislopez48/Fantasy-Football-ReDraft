@@ -19,12 +19,24 @@ pipeline {
             }
         }
 
+stage('Install Dependencies') {
+    steps {
+        dir('fantasy-redraft') {
+            sh '''
+                python3 -m venv .venv
+                .venv/bin/python -m pip install -r requirements.txt
+            '''
+        }
+    }
+}
+
         stage('Run Tests') {
             steps {
                 dir('fantasy-redraft'){
-                    sh 'python3 -m compileall -q backend ingestion transformations pipeline'
+                    sh '.venv/bin/python -m compileall -q backend ingestion transformations pipeline'
                 }
             }
         }
     }
 }
+

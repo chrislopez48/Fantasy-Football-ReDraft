@@ -9,6 +9,8 @@ boto3 is a aws SDK for python, giving python ways to communicate with buckets, e
 docker run `
   -v ${HOME}\.aws:/root/.aws:ro `
   fantasy-redraft
+image= finished template of everything needed to create container
+container= running instance created from an image
 
 "output" in terraform files is the print version basically
 terraform init- prepares terra folder and downloads aws resoirces
@@ -35,3 +37,6 @@ we make a docker network so containers can communicate with each other.
 jenkins controller- manages jobs, schedules builds, etc
 jenkins agent- executes actual build commands
 docker network- allows agent cond controller containers to communicate.
+docker network is a virtuasl network allowing containers to communicate with each other.
+Jenkins synposis- created our jenkins docker environment-> created a image/conatiner/volume for the jenkins controller and agent->used a docker network to onnect agent and controller-> connected jenkins to github with jenkinsfile
+in docker networking= driver = network type
