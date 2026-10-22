@@ -36,6 +36,7 @@ stage('Install Dependencies') {
             steps {
                 dir('fantasy-redraft'){
                     sh '.venv/bin/python -m compileall -q backend ingestion transformations pipeline'
+                    sh '.venv/bin/python -m pytest tests/ -v'
                 }
             }
         }

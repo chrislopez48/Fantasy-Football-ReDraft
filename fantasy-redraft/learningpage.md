@@ -40,3 +40,9 @@ docker network- allows agent cond controller containers to communicate.
 docker network is a virtuasl network allowing containers to communicate with each other.
 Jenkins synposis- created our jenkins docker environment-> created a image/conatiner/volume for the jenkins controller and agent->used a docker network to onnect agent and controller-> connected jenkins to github with jenkinsfile
 in docker networking= driver = network type
+pytest-python testing framework; just quick way to see if our funcs give us the results we want
+
+sh 'echo "hello"' is the print statement variant for our jenkinsfile
+"scm" is source code management. its basically our github; jenkins uses it to retrieve code
+
+#"assert" means result has to be correct or test fails

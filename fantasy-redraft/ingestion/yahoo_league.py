@@ -5,10 +5,12 @@ from urllib.request import Request, urlopen
 
 TOKEN_FILE = Path(__file__).resolve().parent / "yahoo_tokens.json"
 
+LEAGUE_KEY = "470.l.84183"  # Mom and Pop Shop id # for 2026 season
+
 LEAGUES_URL = (
-    "https://fantasysports.yahooapis.com/fantasy/v2/"
-    "users;use_login=1/games;game_codes=nfl/leagues?format=json"
-)
+    f"https://fantasysports.yahooapis.com/fantasy/v2/"
+    f"league/{LEAGUE_KEY}/settings?format=json"
+)                           #will only bring back mom and pop shop, not other leagues
 
 
 def main():
