@@ -64,3 +64,7 @@ docker run -d \
   -v fantasy-agent-workspace:/home/jenkins/agent \
   -v fantasy-jenkins-client-certs:/certs/client:ro \
   fantasy-jenkins-agent
+
+  always smart to keep a backup. "fantasy-build-agent-pre-aws is our pre cli
+
+  need to create IAM policy for our jenkins to connect to ecr

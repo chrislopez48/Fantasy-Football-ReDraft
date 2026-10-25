@@ -40,15 +40,30 @@ stage('Install Dependencies') {
                 }
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 dir('fantasy-redraft') {
                     sh 'docker build -t fantasy-redraft:latest .'
                 }
+            }
+        }
+
+        stage('Verify AWS Authentication') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'fantasy-redraft-aws',
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
+                ]) {
+                    sh 'aws sts get-caller-identity'
                 }
             }
-
         }
     }
+}
+
 
 
