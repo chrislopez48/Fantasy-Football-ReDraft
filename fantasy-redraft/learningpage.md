@@ -46,3 +46,21 @@ sh 'echo "hello"' is the print statement variant for our jenkinsfile
 "scm" is source code management. its basically our github; jenkins uses it to retrieve code
 
 #"assert" means result has to be correct or test fails
+
+docker keeps containers in seperate environments; we need to create a network to connect our jenkins controller and jenkins agent containers
+
+DinD- docker engine insode docker container;
+we have docker data volume to store images and build data, and docker certs to store certs used for connections
+docker desktop is just a docker engine with a gui. we built a seperate docker engine in our dind. second engine will build images in our jenkins pipeline
+
+
+docker run -d \
+  --name fantasy-build-agent \
+  --network jenkins-network \
+  --env-file ~/.jenkins-agent.env \
+  -e DOCKER_HOST=tcp://docker:2376 \
+  -e DOCKER_TLS_VERIFY=1 \
+  -e DOCKER_CERT_PATH=/certs/client \
+  -v fantasy-agent-workspace:/home/jenkins/agent \
+  -v fantasy-jenkins-client-certs:/certs/client:ro \
+  fantasy-jenkins-agent

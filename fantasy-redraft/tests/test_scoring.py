@@ -13,6 +13,6 @@ def test_qb_scoring():
 
     total, breakdown = compute_fantasy_points(player, rules)
 
-    assert total == pytest.approx(10.0)   
+    assert total == pytest.approx(10.0)        #the expected amount of points our qb should get in the pytest
     assert breakdown["pass_td"] == 8.0
     assert breakdown["interceptions"] == -2.0

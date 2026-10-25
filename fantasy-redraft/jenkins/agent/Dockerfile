@@ -1,10 +1,14 @@
+
 FROM jenkins/inbound-agent:jdk21
 
 USER root
 
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-venv && \
+    apt-get install -y \
+        python3 \
+        python3-pip \
+        python3-venv \
+        docker.io && \
     rm -rf /var/lib/apt/lists/*
 
-
-    USER jenkins
+USER jenkins
