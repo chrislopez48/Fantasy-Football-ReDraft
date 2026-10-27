@@ -68,3 +68,9 @@ docker run -d \
   always smart to keep a backup. "fantasy-build-agent-pre-aws is our pre cli
 
   need to create IAM policy for our jenkins to connect to ecr
+
+aws ecr describe-repositories \
+  --repository-names fantasy-redraft \
+  --region us-east-1 \
+  --query 'repositories[0].repositoryUri' \
+  --output text this command is to veryify ecr repo

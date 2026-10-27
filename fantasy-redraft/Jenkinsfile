@@ -3,7 +3,7 @@ pipeline {
     agent {
         label 'fantasy-builder'
     }
-                                            
+
     stages {
         stage('Checkout') {
             steps {
@@ -21,20 +21,20 @@ pipeline {
             }
         }
 
-stage('Install Dependencies') {
-    steps {
-        dir('fantasy-redraft') {
-            sh '''
+        stage('Install Dependencies') {
+            steps {
+                dir('fantasy-redraft') {
+                    sh '''
                 python3 -m venv .venv
                 .venv/bin/python -m pip install -r requirements.txt
             '''
+                }
+            }
         }
-    }
-}
 
         stage('Run Tests') {
             steps {
-                dir('fantasy-redraft'){
+                dir('fantasy-redraft') {
                     sh '.venv/bin/python -m compileall -q backend ingestion transformations pipeline'
                     sh '.venv/bin/python -m pytest tests/ -v'
                 }
@@ -62,8 +62,33 @@ stage('Install Dependencies') {
                 }
             }
         }
+
+        stage('Push Docker Image to ECR') {
+            steps {
+                withCredentials([
+            usernamePassword(
+                credentialsId: 'fantasy-redraft-aws',
+                usernameVariable: 'AWS_ACCESS_KEY_ID',
+                passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+            )
+        ]) {
+                    sh '''
+                set +x
+                set -eu
+
+                AWS_REGION=us-east-1
+                ECR_REGISTRY=131715058630.dkr.ecr.us-east-1.amazonaws.com
+                ECR_REPO=$ECR_REGISTRY/fantasy-redraft
+
+                aws ecr get-login-password --region "$AWS_REGION" |
+                    docker login --username AWS --password-stdin "$ECR_REGISTRY"
+
+                docker tag fantasy-redraft:latest "$ECR_REPO:latest"
+
+                docker push "$ECR_REPO:latest"
+            '''
+        }
+            }
+        }
     }
 }
-
-
-
