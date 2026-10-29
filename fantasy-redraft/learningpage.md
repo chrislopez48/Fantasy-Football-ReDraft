@@ -74,3 +74,7 @@ aws ecr describe-repositories \
   --region us-east-1 \
   --query 'repositories[0].repositoryUri' \
   --output text this command is to veryify ecr repo
+
+  we made an IAM policy to give us permissions on what ecr actions are allowed, made an IAM user to give jenkins aws identity, and an access key that allows authentication.
+
+  on our terraform file, we dont put the physical actual vpc id, but the "default" so that we are more flexible and portable between multiple aws acounts that have different vpcs.

@@ -118,14 +118,15 @@ resource "aws_ecs_task_definition" "fantasy_pipeline" {
 data "aws_vpc" "default" {
   default = true
 }
-
+# "data" is looking up existing infrastructure, resource is manage and create
 data "aws_subnets" "default" {
   filter {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
 }
-
+#code above tells terraform to find subnets associated with the vpc id
+#instead of just typing actual vpc, we just put default for portability for multiple aws accounts
 resource "aws_security_group" "fantasy_pipeline" {
   name        = "fantasy-redraft-sg"
   description = "Security group for fantasy redraft Fargate task"
