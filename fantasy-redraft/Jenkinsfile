@@ -24,6 +24,7 @@ pipeline {
             steps {
                 dir('fantasy-redraft') {
                     sh '''
+                        set -eu
                         python3 -m venv .venv
                         .venv/bin/python -m pip install -r requirements.txt
                     '''
@@ -90,6 +91,10 @@ pipeline {
         }
 
         stage('Run ECS Fargate Task') {
+            options {
+                timeout(time: 15, unit: 'MINUTES')
+            }
+
             steps {
                 withCredentials([
                     usernamePassword(
@@ -101,23 +106,69 @@ pipeline {
                     sh '''
                         set -eu
 
-                        TASK_ARN=$(aws ecs run-task \
-                            --cluster fantasy-redraft-cluster \
-                            --task-definition fantasy-redraft-task \
-                            --launch-type FARGATE \
-                            --count 1 \
-                            --network-configuration 'awsvpcConfiguration={subnets=[subnet-0a41948b12a1eaa2b,subnet-066c9523f8db8533c,subnet-0e16ddde61ea57005,subnet-0485e78ced06f50c7,subnet-0c70a7651bd7dda13,subnet-035ae8cb7db56eb4e],securityGroups=[sg-0de653944950eeae9],assignPublicIp=ENABLED}' \
-                            --region us-east-1 \
-                            --query 'tasks[0].taskArn' \
-                            --output text \
+                        echo "Launching ECS Fargate task..."
+
+                        TASK_RESPONSE=$(aws ecs run-task \\
+                            --cluster fantasy-redraft-cluster \\
+                            --task-definition fantasy-redraft-task \\
+                            --launch-type FARGATE \\
+                            --count 1 \\
+                            --network-configuration 'awsvpcConfiguration={subnets=[subnet-0a41948b12a1eaa2b,subnet-066c9523f8db8533c,subnet-0e16ddde61ea57005,subnet-0485e78ced06f50c7,subnet-0c70a7651bd7dda13,subnet-035ae8cb7db56eb4e],securityGroups=[sg-0de653944950eeae9],assignPublicIp=ENABLED}' \\
+                            --region us-east-1 \\
+                            --output json \\
                             --no-cli-pager)
 
-                        if [ -z "$TASK_ARN" ] || [ "$TASK_ARN" = "None" ]; then
-                            echo "ERROR: No ECS task ARN was returned."
+                        TASK_ARN=$(printf '%s' "$TASK_RESPONSE" | python3 -c '
+import json
+import sys
+
+response = json.load(sys.stdin)
+failures = response.get("failures", [])
+tasks = response.get("tasks", [])
+
+if failures:
+    print("ECS launch failures:", failures, file=sys.stderr)
+    sys.exit(1)
+
+if len(tasks) != 1 or not tasks[0].get("taskArn"):
+    print("ERROR: Expected one ECS task ARN.", file=sys.stderr)
+    sys.exit(1)
+
+print(tasks[0]["taskArn"])
+')
+
+                        echo "Launched ECS task: $TASK_ARN"
+
+                        echo "Waiting for ECS task to stop..."
+
+                        aws ecs wait tasks-stopped \\
+                            --cluster fantasy-redraft-cluster \\
+                            --tasks "$TASK_ARN" \\
+                            --region us-east-1
+
+                        echo "Task stopped. Checking container result..."
+
+                        aws ecs describe-tasks \\
+                            --cluster fantasy-redraft-cluster \\
+                            --tasks "$TASK_ARN" \\
+                            --region us-east-1 \\
+                            --query 'tasks[0].{TaskStatus:lastStatus,StopCode:stopCode,StoppedReason:stoppedReason,Containers:containers[].{Name:name,Status:lastStatus,ExitCode:exitCode,Reason:reason}}' \\
+                            --output json
+
+                        EXIT_CODE=$(aws ecs describe-tasks \\
+                            --cluster fantasy-redraft-cluster \\
+                            --tasks "$TASK_ARN" \\
+                            --region us-east-1 \\
+                            --query 'tasks[0].containers[0].exitCode' \\
+                            --output text)
+
+                        if [ "$EXIT_CODE" != "0" ]; then
+                            echo "ERROR: Fargate container failed or has no successful exit code."
+                            echo "Exit code: $EXIT_CODE"
                             exit 1
                         fi
 
-                        echo "Launched ECS task: $TASK_ARN"
+                        echo "SUCCESS: Fargate container exited with code 0."
                     '''
                 }
             }
