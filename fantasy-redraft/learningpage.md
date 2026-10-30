@@ -78,3 +78,8 @@ aws ecr describe-repositories \
   we made an IAM policy to give us permissions on what ecr actions are allowed, made an IAM user to give jenkins aws identity, and an access key that allows authentication.
 
   on our terraform file, we dont put the physical actual vpc id, but the "default" so that we are more flexible and portable between multiple aws acounts that have different vpcs.
+
+  ARN= amazon resource name
+  subnet- where does our container connect to the network. we set up subnets so our fargate container can communicate with the internet and aws services.
+  security group- what network traffic can enter or leave
+
