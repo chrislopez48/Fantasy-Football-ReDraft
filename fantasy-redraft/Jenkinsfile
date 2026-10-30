@@ -13,8 +13,7 @@ pipeline {
 
         stage('Verify Project') {
             steps {
-                dir('fantasy-redraft')
-                {
+                dir('fantasy-redraft') {
                     sh 'python3 --version'
                     sh 'ls -la'
                 }
@@ -25,9 +24,9 @@ pipeline {
             steps {
                 dir('fantasy-redraft') {
                     sh '''
-                python3 -m venv .venv
-                .venv/bin/python -m pip install -r requirements.txt
-            '''
+                        python3 -m venv .venv
+                        .venv/bin/python -m pip install -r requirements.txt
+                    '''
                 }
             }
         }
@@ -66,32 +65,32 @@ pipeline {
         stage('Push Docker Image to ECR') {
             steps {
                 withCredentials([
-            usernamePassword(
-                credentialsId: 'fantasy-redraft-aws',
-                usernameVariable: 'AWS_ACCESS_KEY_ID',
-                passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-            )
-        ]) {
+                    usernamePassword(
+                        credentialsId: 'fantasy-redraft-aws',
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
+                ]) {
                     sh '''
-                set +x
-                set -eu
+                        set +x
+                        set -eu
 
-                AWS_REGION=us-east-1
-                ECR_REGISTRY=131715058630.dkr.ecr.us-east-1.amazonaws.com
-                ECR_REPO=$ECR_REGISTRY/fantasy-redraft
+                        AWS_REGION=us-east-1
+                        ECR_REGISTRY=131715058630.dkr.ecr.us-east-1.amazonaws.com
+                        ECR_REPO=$ECR_REGISTRY/fantasy-redraft
 
-                aws ecr get-login-password --region "$AWS_REGION" |
-                    docker login --username AWS --password-stdin "$ECR_REGISTRY"
+                        aws ecr get-login-password --region "$AWS_REGION" |
+                            docker login --username AWS --password-stdin "$ECR_REGISTRY"
 
-                docker tag fantasy-redraft:latest "$ECR_REPO:latest"
-
-                docker push "$ECR_REPO:latest"
-            '''
-        }
+                        docker tag fantasy-redraft:latest "$ECR_REPO:latest"
+                        docker push "$ECR_REPO:latest"
+                    '''
+                }
             }
         }
+
         stage('Run ECS Fargate Task') {
-            steps{
+            steps {
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'fantasy-redraft-aws',
@@ -100,14 +99,25 @@ pipeline {
                     )
                 ]) {
                     sh '''
-                        aws ecs run-task \
+                        set -eu
+
+                        TASK_ARN=$(aws ecs run-task \
                             --cluster fantasy-redraft-cluster \
                             --task-definition fantasy-redraft-task \
                             --launch-type FARGATE \
                             --count 1 \
                             --network-configuration 'awsvpcConfiguration={subnets=[subnet-0a41948b12a1eaa2b,subnet-066c9523f8db8533c,subnet-0e16ddde61ea57005,subnet-0485e78ced06f50c7,subnet-0c70a7651bd7dda13,subnet-035ae8cb7db56eb4e],securityGroups=[sg-0de653944950eeae9],assignPublicIp=ENABLED}' \
                             --region us-east-1 \
-                            --no-cli-pager
+                            --query 'tasks[0].taskArn' \
+                            --output text \
+                            --no-cli-pager)
+
+                        if [ -z "$TASK_ARN" ] || [ "$TASK_ARN" = "None" ]; then
+                            echo "ERROR: No ECS task ARN was returned."
+                            exit 1
+                        fi
+
+                        echo "Launched ECS task: $TASK_ARN"
                     '''
                 }
             }

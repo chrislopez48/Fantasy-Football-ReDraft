@@ -83,3 +83,7 @@ aws ecr describe-repositories \
   subnet- where does our container connect to the network. we set up subnets so our fargate container can communicate with the internet and aws services.
   security group- what network traffic can enter or leave
 
+  $() is a command substitution; executes the command inside the parenthesis anc captures its standard output.
+
+  every time ecs launches a new task, aws generates a new, unique id task
+
